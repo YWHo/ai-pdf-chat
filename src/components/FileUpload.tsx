@@ -1,16 +1,18 @@
 "use client";
-import { uploadToS3 } from "@/lib/s3";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { InboxIcon, Loader2 } from "lucide-react";
 import React from "react";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { uploadToS3 } from "@/lib/s3";
+import { useMutation } from "@tanstack/react-query";
+import { InboxIcon, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 function FileUpload() {
   const [uploading, setUploading] = React.useState(false);
+  const router = useRouter();
   const { mutate, isPending } = useMutation({
     mutationFn: async ({
       file_key,
@@ -48,9 +50,11 @@ function FileUpload() {
             console.log(data);
             const { chat_id, message } = data;
             toast.success(message || "Success!");
+            router.push(`/chat/${chat_id}`);
           },
           onError: (err) => {
-            toast.error("Error creating chat");
+            toast.error(`Error creating chat: ${err}`);
+            console.log("Error creating chat:\n", err);
           },
         });
         console.log("data", data);
