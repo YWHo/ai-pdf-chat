@@ -46,10 +46,10 @@ function FileUpload() {
         mutate(data, {
           onSuccess: (data) => {
             console.log(data);
-            toast.success(data.message);
+            const { chat_id, message } = data;
+            toast.success(message || "Success!");
           },
           onError: (err) => {
-            console.log(err);
             toast.error("Error creating chat");
           },
         });
