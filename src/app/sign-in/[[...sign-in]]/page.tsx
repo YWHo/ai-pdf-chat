@@ -1,3 +1,5 @@
+// Page route: /sign-in/{sign-in?}/[..]   (optional catch-all segments)
+
 import { SignIn } from "@clerk/nextjs";
 
 export default function Page() {

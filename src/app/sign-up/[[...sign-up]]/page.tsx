@@ -1,3 +1,4 @@
+// Page route: /sign-up/{sign-up?}/[..]   (optional catch-all segments)
 import { SignUp } from "@clerk/nextjs";
 
 export default function Page() {
