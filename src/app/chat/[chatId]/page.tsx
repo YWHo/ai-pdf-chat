@@ -8,6 +8,7 @@ import PDFViewer from "@/components/PDFViewer";
 import { db } from "@/lib/db";
 import { chats } from "@/lib/db/schema";
 import { auth } from "@clerk/nextjs";
+import ChatComponent from "@/components/ChatComponent";
 
 type Props = {
   params: {
@@ -42,8 +43,8 @@ async function ChatPage({ params: { chatId } }: Props) {
           <PDFViewer pdfUrl={currentChat?.pdfUrl || ""} />
         </div>
         {/* chat component */}
-        <div className="flex=[3] border-l-4 border-slate-200">
-          {/* <ChatComponent /> */}
+        <div className="flex-[3] border-l-4 border-slate-200">
+          <ChatComponent />
         </div>
       </div>
     </div>
