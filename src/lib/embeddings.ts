@@ -7,8 +7,6 @@ const config = new Configuration({
 const openAi = new OpenAIApi(config);
 
 export async function getEmbeddings(text: string) {
-  console.log("\n---\n getEmbeddings: config:\n", config);
-  console.log("\n---\n getEmbeddings: text:\n", text);
   try {
     const response = await openAi.createEmbedding({
       model: "text-embedding-ada-002",
@@ -17,7 +15,6 @@ export async function getEmbeddings(text: string) {
     const result = await response.json();
     if (result.error)
       throw new Error(result.error.message || "something goes wrong");
-    console.log("\n---\n getEmbeddings: result:\n", result);
     return result.data[0].embedding as number[];
   } catch (err) {
     console.log("error calling openAi embeddings api: ", err);

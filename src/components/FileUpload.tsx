@@ -32,7 +32,7 @@ function FileUpload() {
     accept: { "application/pdf": [".pdf"] },
     maxFiles: 1,
     onDrop: async (acceptedFiles) => {
-      console.log(acceptedFiles);
+      // console.log(acceptedFiles);
       const file = acceptedFiles[0];
       if (file.size > MAX_FILE_SIZE) {
         toast.error("The file is too large");
@@ -47,7 +47,6 @@ function FileUpload() {
         }
         mutate(data, {
           onSuccess: (data) => {
-            console.log(data);
             const { chat_id, message } = data;
             toast.success(message || "Success!");
             router.push(`/chat/${chat_id}`);
@@ -57,7 +56,7 @@ function FileUpload() {
             console.log("Error creating chat:\n", err);
           },
         });
-        console.log("data", data);
+        // console.log("data", data);
       } catch (err) {
         console.log(err);
       } finally {

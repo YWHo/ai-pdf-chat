@@ -5,10 +5,12 @@ type Props = {
 };
 
 function PDFViewer({ pdfUrl }: Props) {
+  const fullPath = `https://docs.google.com/gview?url=${pdfUrl}&embedded=true`;
+  // console.log("\n--- fullpath:\n", fullPath);
   return (
     <iframe
-      src={`https://docs.google.com/gview?url=${pdfUrl}&embedded=true`}
-      sandbox="allow-scripts allow-same-origin"
+      src={fullPath}
+      sandbox="allow-same-origin allow-presentation allow-scripts"
       className="w-full h-full"
     ></iframe>
   );

@@ -12,7 +12,7 @@ import { downloadFromS3 } from "./s3-server";
 import { getEmbeddings } from "./embeddings";
 import { convertToAscii } from "./utils";
 
-export const pinecone = new Pinecone({
+const pinecone = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY!,
 });
 
@@ -29,7 +29,10 @@ export async function loadS3IntoPinecone(fileKey: string) {
   if (!fileName) {
     throw new Error("Could not download from s3");
   }
-  const loader = new PDFLoader(fileName);
+  const loader = new PDFLoader(fileName, {
+    parsedItemSeparator: " ",
+  });
+  const tmpPages = await loader.load();
   const pages = (await loader.load()) as PDFPage[];
 
   // 2. split and segment the pdf
@@ -72,7 +75,7 @@ function truncateStringByBytes(str: string, bytes: number) {
 
 async function prepareDocument(page: PDFPage) {
   let { pageContent, metadata } = page;
-  pageContent = pageContent.replace(/\n/g, "");
+  pageContent = pageContent.replace(/\n/g, " ");
   const splitter = new RecursiveCharacterTextSplitter();
   const docs = await splitter.splitDocuments([
     new Document({
