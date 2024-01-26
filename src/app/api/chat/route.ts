@@ -5,7 +5,7 @@ import { OpenAIStream, StreamingTextResponse } from "ai";
 import { Message } from "ai/react";
 import { getPdfContext } from "@/lib/pdfContext";
 import { db } from "@/lib/db";
-import { chats } from "@/lib/db/schema";
+import { chats, messages as messagesTable } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export const runtime = "edge";
@@ -54,7 +54,25 @@ export async function POST(req: Request, res: Response) {
       stream: true,
     });
 
-    const stream = OpenAIStream(response);
+    const stream = OpenAIStream(response, {
+      onStart: async () => {
+        // save user message into db
+        await db.insert(messagesTable).values({
+          chatId,
+          content: lastMessage.content,
+          role: "user",
+        });
+      },
+      // Saving system messages
+      onCompletion: async (completion) => {
+        // save AI response message into db
+        await db.insert(messagesTable).values({
+          chatId,
+          content: completion,
+          role: "system",
+        });
+      },
+    });
     return new StreamingTextResponse(stream);
   } catch (err) {
     console.error("\n/api/chat err:\n", err);

@@ -1,12 +1,23 @@
 import React from "react";
 import { Message } from "ai/react";
 import { cn } from "@/lib/utils";
+import { Loader2Icon } from "lucide-react";
 
 type Props = {
+  isLoading: boolean;
   messages: Message[];
 };
 
-function MessageList({ messages }: Props) {
+function MessageList({ isLoading, messages }: Props) {
+  if (isLoading) {
+    return (
+      <div className="relative h-8 w-full">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <Loader2Icon className="w-6 h-6 animate-spin" />
+        </div>
+      </div>
+    );
+  }
   if (!messages) return <></>;
   return (
     <div className="flex flex-col gap-2 px-4">
