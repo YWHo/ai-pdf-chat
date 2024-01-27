@@ -1,3 +1,4 @@
+// API route: /api/chat-messages
 import { db } from "@/lib/db";
 import { messages as messagesTable } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
