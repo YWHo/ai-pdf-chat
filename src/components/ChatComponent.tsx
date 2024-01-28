@@ -18,7 +18,7 @@ function ChatComponent({ chatId }: Props) {
     queryKey: ["chat", chatId],
     queryFn: async () => {
       const response = await axios.get<Message[]>(
-        `/api/chat-messages/${chatId}`
+        `/api/chat-messages/?id=${chatId}`
       );
       return response.data;
     },

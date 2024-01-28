@@ -5,12 +5,10 @@ import { eq } from "drizzle-orm";
 
 export const runtime = "edge"; // make this run faster
 
-type paramsType = {
-  chatId: number;
-};
-
-export async function GET(req: Request, { params }: { params: paramsType }) {
-  const chatId = params.chatId;
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const paramId = searchParams.get("id");
+  const chatId: number = paramId ? parseInt(paramId) : -1;
   const _messages = await db
     .select()
     .from(messagesTable)
