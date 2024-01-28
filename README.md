@@ -7,16 +7,16 @@ This app is designed for chatting with AI about the content in a PDF. When you a
 1. React, TypeScript, NextJS, Tailwind CSS, React Query
 2. Clerk Authentication, NeonDB(PostgresSQL), Drizzle ORM, AWS S3, OpenAI, Pinecone Vector DB, Stripe
 
-## App View
+## Demo View
 
 1. Landing Page
 
-[!landing](./screenshot/landing.png)
+![landing](./screenshot/landing.png)
 
 2. After Login
 
-[!after login](./screenshot/after_login.png)
+![after login](./screenshot/after_login.png)
 
 3. In the chat window after a PDF has been uploaded, users can interact with the document and ask questions.
 
-[!chat on PDF](./screenshot/landing.png)
+![chat on PDF](./screenshot/chat_on_the_pdf.png)
