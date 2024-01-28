@@ -9,6 +9,7 @@ import { db } from "@/lib/db";
 import { chats } from "@/lib/db/schema";
 import { auth } from "@clerk/nextjs";
 import ChatComponent from "@/components/ChatComponent";
+import { getSubscriptionStatus } from "@/lib/subscription";
 
 type Props = {
   params: {
@@ -30,13 +31,14 @@ async function ChatPage({ params: { chatId } }: Props) {
   }
 
   const currentChat = _chats.find((chat) => chat.id === parseInt(chatId));
+  const isPro = await getSubscriptionStatus();
 
   return (
     <div className="flex max-h-screen overflow-scroll">
       <div className="flex w-full max-h-screen overflow-scroll">
         {/* chat sidebar */}
         <div className="flex-[1] max-w-xs">
-          <ChatSideBar chats={_chats} chatId={parseInt(chatId)} />
+          <ChatSideBar chats={_chats} chatId={parseInt(chatId)} isPro={isPro} />
         </div>
         {/* pdf viewer */}
         <div className="max-h-screen p-4 overflow-scroll flex-[5]">

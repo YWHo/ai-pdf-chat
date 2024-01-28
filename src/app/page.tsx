@@ -2,12 +2,17 @@ import { Toaster } from "react-hot-toast";
 import FileUpload from "@/components/FileUpload";
 import { Button } from "@/components/ui/button";
 import { auth, UserButton } from "@clerk/nextjs";
-import { LogInIcon } from "lucide-react";
+import { ArrowRightIcon, LogInIcon } from "lucide-react";
 import Link from "next/link";
+import { getSubscriptionStatus } from "@/lib/subscription";
+import SubscriptionButton from "../components/SubscriptionButton";
+import { getFirstChat } from "@/lib/chat";
 
 export default async function Home() {
   const { userId } = await auth();
   const isAuth = !!userId;
+  const isPro = await getSubscriptionStatus();
+  const firstChat = await getFirstChat(userId);
   return (
     <>
       {/* Note: refer to https://hypercolor.dev to get gradient color
@@ -20,7 +25,16 @@ export default async function Home() {
               <UserButton afterSignOutUrl="/" />
             </div>
             <div className="flex mt-2">
-              {isAuth && <Button>Go to Chats</Button>}
+              {isAuth && firstChat && (
+                <Link href={`/chat/${firstChat.id}`}>
+                  <Button>
+                    Go to Chats <ArrowRightIcon className="ml-2" />
+                  </Button>
+                </Link>
+              )}
+              <div className="ml-3">
+                <SubscriptionButton isPro={isPro} />
+              </div>
             </div>
             <p className="max-w-xl mt-2 text-lg text-slate-600">
               Join millions of students, researchers and professionals to
