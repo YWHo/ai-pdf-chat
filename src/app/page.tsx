@@ -33,7 +33,7 @@ export default async function Home() {
                 </Link>
               )}
               <div className="ml-3">
-                <SubscriptionButton isPro={isPro} />
+                {isAuth && <SubscriptionButton isPro={isPro} />}
               </div>
             </div>
             <p className="max-w-xl mt-2 text-lg text-slate-600">
